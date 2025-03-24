@@ -18,14 +18,30 @@
         height: 100%;
     }
 
-    #sidebar { 
-        width: 300px;
-        flex-shrink: 0;
-        height: 100%;
-        padding: 30px;
-        background-color: #111;
-        color: white;
+    #controls {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 1;
     }
+
+    button {
+        padding: 8px 12px;
+        background-color: #222;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    button:hover {
+        background-color: #444;
+    }
+
 
     #map {
         flex-grow: 1;
@@ -41,12 +57,13 @@
 </style>
 </head>
 <body>
-    <div id="container">
-        <div id="sidebar"> </div>
-            <button id="fly-to-coney">Fly to Coney Island</button>
-            <button id="reset-view">Reset</button>
-        <div id="map"></div>
+    <div id="map"></div>
+
+    <div id="controls">
+        <button id="fly-to-coney">Fly to Coney Island</button>
+        <button id="reset-view">Reset</button>
     </div>
+
 
 
     <script>
