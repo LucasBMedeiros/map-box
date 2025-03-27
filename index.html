@@ -26,8 +26,9 @@ body {
 </style>
 <div id="map"></div>
 <button id="btn-spin">Pause rotation</button>
+<script src="config.js"></script>
 <script>
-	mapboxgl.accessToken = 'pk.eyJ1IjoibHVjYXNlYm0iLCJhIjoiY204aHZsOXBpMDZmZjJqb2c0Ynowb2Y3cCJ9.m5mguBwU6WFJn3PAzfeWOA';
+	mapboxgl.accessToken = CONFIG.MAPBOX_TOKEN;
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/dark-v11',

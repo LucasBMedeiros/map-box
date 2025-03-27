@@ -64,13 +64,12 @@
         <button id="reset-view">Reset</button>
     </div>
 
-
-
+    <script src="config.js"></script>
     <script>
         const INITIAL_CENTER = [-73.841515,40.691691]
         const INITIAL_ZOOM = 10
 
-        mapboxgl.accessToken = 'pk.eyJ1IjoibHVjYXNlYm0iLCJhIjoiY204aHZsOXBpMDZmZjJqb2c0Ynowb2Y3cCJ9.m5mguBwU6WFJn3PAzfeWOA';
+        mapboxgl.accessToken = CONFIG.MAPBOX_TOKEN;
         const map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/dark-v11',
@@ -139,8 +138,7 @@
         //     .setLngLat([-73.841515,40.691691])
         //     .setPopup(popup)
         //     .addTo(map);
-
-
+ 
         // ADDING FILL AND LINES FOR EACH NEIGHBORHOOD
         map.on('load', () => {
             // Set the default atmosphere style
