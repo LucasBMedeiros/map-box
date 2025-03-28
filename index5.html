@@ -162,7 +162,8 @@
             // add a source and layers for the NYC borough
             map.addSource('borough-boundaries', {
                 type: 'geojson',
-                data: 'data/borough-boundaries2.geojson'
+                data: 'data/borough-boundaries3.geojson',
+                promoteId: 'borocode'
             })
 
             // adding layers to the map atmosphere/style
@@ -186,7 +187,12 @@
                         'pink',
                         'steelblue'
                 ],
-                    'fill-opacity': 0.5
+                    'fill-opacity': [
+                        'case',
+                        ['boolean', ['feature-state', 'hover'], false],
+                        0.8,
+                        0.5
+                    ]
                 }
             }, 'road-path')
 
@@ -200,6 +206,8 @@
                 }
             }, 'road-path')
 
+            
+
             // ON CLICK THERE'S A SIMPLE DESCRIPTION OF THE DATA FROM THE GEOJSON WITH THE POPULATION VALUE
             map.on('click', (e) => {
                 const [ selectedBorough ] = map.queryRenderedFeatures(e.point, {
@@ -207,17 +215,29 @@
                 });
 
                 if (selectedBorough) {
-                    const { boro_name, pop2020 } = selectedBorough.properties
+                    const { boroname, pop2020, median_income, land_area_km2, borough_president } = selectedBorough.properties
                     //alert(`The population of ${boro_name} is ${pop2020}`)
 
                     const panel = document.getElementById('info-panel');
                     panel.innerHTML = `
-                        <h3 style="margin-top: 0;">${boro_name}</h3>
+                        <h3 style="margin-top: 0;">${boroname}</h3>
                         <table style="width: 100%; border-collapse: collapse;">
                             <tr>
                                 <td style="padding: 4px; border-bottom: 1px solid #555;">Population (2020):</td>
                                 <td style="padding: 4px; border-bottom: 1px solid #555;">${Number(pop2020).toLocaleString()}</td>
-                            </tr>                            
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px; border-bottom: 1px solid #555;">Median Income (2020):</td>
+                                <td style="padding: 4px: border-bottom: 1px solid #555;">${Number(median_income).toLocaleString()}</td> 
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px; border-bottom: 1px solid #555;">Land Area (2020):</td>
+                                <td style="padding: 4px; border-bottom: 1px solid #555;">${land_area_km2}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 4px; border-bottom: 1px solid #555;">Borough President (2020):</td>
+                                <td style="padding: 4px; border-bottom: 1px solid #555;">${borough_president}</td>
+                            </tr>  
                         </table>
                         <button onclick="document.getElementById('info-panel').style.display='none'"
                             style="margin-top: 10px; padding: 5px 10px; background: #444; color: white; border: none; border-radius: 4px;">
@@ -227,6 +247,29 @@
                     panel.style.display = 'block';
                 }
             })
+
+
+            let hoveredStateId = null
+
+            map.on('mousemove', 'borough-boundaries-fill', (e) => {
+                if (e.features.length > 0) {
+                    if (hoveredStateId !== null) {
+                        map.setFeatureState(
+                            { source: 'borough-boundaries', id: hoveredStateId },
+                            { hover: false }
+                        );
+                    }
+                    hoveredStateId = e.features[0].id;
+                    map.setFeatureState(
+                        { source: 'borough-boundaries', id: hoveredStateId },
+                        { hover: true }
+                    );
+                }
+            });
+
+
+
+
 
 
         });
